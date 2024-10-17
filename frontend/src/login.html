@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Adicionando Material Icons -->
+    <title>Login | Portal de Melhorias</title>
+</head>
+
+<body>
+    <div class="login-box">
+        <div class="login-header">
+            <header>Login</header>
+        </div>
+        <div class="input-box">
+            <div class="input-container">
+                <span class="material-icons"
+                    style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 25px; color: #888;">person_outline</span>
+                <input type="text" class="input-field" id="email" placeholder="Email" autocomplete="off" required>
+            </div>
+        </div>
+        <div class="input-box">
+            <div class="input-container">
+                <span class="material-icons"
+                    style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 25px; color: #888;">lock_outline</span>
+                <input type="password" class="input-field" id="password" placeholder="Senha" autocomplete="off"
+                    required>
+            </div>
+        </div>
+        <div class="input-submit">
+            <button class="submit-btn" id="submit">Entre</button>
+        </div>
+        <div class="sign-up-link">
+            <p>Ainda não tem conta? <a href="#">Registre-se</a></p>
+        </div>
+    </div>
+
+    <!-- JavaScript
+    <script>
+        document.getElementById("submit").addEventListener("click", function(event) {
+            event.preventDefault();  // Evita o submit da página
+            const emailField = document.getElementById("email");
+            const passwordField = document.getElementById("password");
+
+            // Remove as classes de erro
+            emailField.classList.remove("error");
+            passwordField.classList.remove("error");
+
+            // Validação simples
+            if (!emailField.value || !passwordField.value) {
+                // Verifica se os campos estão vazios e adiciona classe 'error' para feedback visual
+                if (!emailField.value) emailField.classList.add("error");
+                if (!passwordField.value) passwordField.classList.add("error");
+                alert("Please fill out all fields.");
+            } else {
+                alert("Login successful!");
+                // Aqui você pode redirecionar para outra página após o login, por exemplo:
+                // window.location.href = "dashboard.html";
+            }
+        }); -->
+    </script>
+</body>
+
+</html>
