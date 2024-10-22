@@ -11,6 +11,45 @@
     <title>Login | Portal de Melhorias</title>
 </head>
 
+<script>
+    document.getElementById("submit").addEventListener("click", function(event) {
+        event.preventDefault(); // Evita o envio padrão do formulário
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Validação simples
+        if (!email || !password) {
+            alert("Por favor, preencha todos os campos.");
+            return;
+        }
+
+        // Enviando os dados para a rota de login
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: email, password }) // Use o email como username
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao fazer login');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert("Login bem-sucedido!"); // Mensagem de sucesso
+            // Salve o token se necessário e redirecione
+            localStorage.setItem('token', data.token);
+            window.location.href = 'sugestoes.html'; // Redirecionar após login bem-sucedido
+        })
+        .catch(error => {
+            alert(error.message); // Mensagem de erro
+        });
+    });
+</script>  
+
 <body>
     <div class="login-box">
         <div class="login-header">
