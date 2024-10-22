@@ -16,10 +16,10 @@ button{
     flex-direction: column;
     width: 65%;
     margin-left: 25%;
-    border: 1px solid rgb(49, 54, 47);
+    border: 1px solid rgb(167, 167, 167);
     z-index: 500;
     margin-top: 20px;
-    background-color: black;
+    border-radius: 3%;
 }
 .top-tweet{
     vertical-align: middle;
@@ -29,15 +29,13 @@ button{
 }
 .home-title{
     padding-left: 6px;
-    color: rgb(231 233 234);
+    color: rgb(71, 71, 71);
     font-size: 20px;
     display: flex;
     position: fixed;
     align-items: center;
     font-weight: 700;
     z-index: 1000;
-    background:rgba(1 ,1 ,1 ,0.91 );
-    
     padding-bottom: 20px;
     margin-top: -2px;
     padding-top: 9px;    
@@ -61,11 +59,11 @@ button{
 .text-box{
     vertical-align: middle;
     font-size: 20px;
-    color: rgb(231 233 234);
-    background-color: black;
+    color: rgb(71, 71, 71);;
     border: none;
-    padding: 15px 12px;
+    padding: 20px 12px;
     padding-right: 100px;
+    background-color:#dfdfdf50;
     
 }
 .text-boxx{
@@ -116,19 +114,18 @@ button{
 }
 .tweet-button{
     color: white;
-    font-size: 15px;
+    font-size: 22px;
     font-weight: 700;
-    background-color: rgb(25, 155, 240);
+    background-color: rgb(17, 53, 78);
     padding: 8px 17px;
     border-radius: 30px;
 }
 .content{
     border-radius: 8px; 
     margin: 0px 12px 0px 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     display: flex; 
     flex-direction: column; 
-    color: white;
+    color: rgb(0, 0, 0);
 
     
 }
@@ -244,20 +241,3 @@ button{
 div .icons{
     padding-right: 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,7 +1,7 @@
 .sidebar{
     position: fixed;
     
-    color: whitesmoke;
+    color: rgb(71, 71, 71);
     height: 100%;
     width: 100%;    
 }
@@ -226,11 +226,11 @@
 
 .tweet{
     margin-left:-3px;
-    color: white;
+    color: rgb(255, 255, 255);
     vertical-align: middle;
     font-size: 17px;
     font-weight: 700;
-    background-color: rgb(25, 155, 240);
+    background-color: rgb(17, 53, 78);
     padding: 10px 85px;
     margin-top: 20px;
     border-radius: 60px;
@@ -258,7 +258,7 @@
    
 }
 .name{
-    color: white;
+    color: rgb(71, 71, 71);
     font-size: 15px;
     font-weight: 700;
     width: 140px;
