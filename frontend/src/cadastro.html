@@ -8,6 +8,46 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <!-- Adicionando Material Icons -->
     <title>Registre-se | Portal de Melhorias</title>
 </head>
+
+<script>
+    document.getElementById("submit-txt").addEventListener("click", function(event) {
+        event.preventDefault(); // Evita o envio padrão do formulário
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const email = document.getElementById("email").value;
+
+        // Validação simples
+        if (!username || !password || !email) {
+            alert("Por favor, preencha todos os campos.");
+            return;
+        }
+
+        // Enviando os dados para a rota de cadastro
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password, email })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao registrar usuário');
+            }
+            return response.text();
+        })
+        .then(data => {
+            alert(data); // Mensagem de sucesso
+            // Você pode redirecionar para outra página aqui, se necessário
+            // window.location.href = "login.html";
+        })
+        .catch(error => {
+            alert(error.message); // Mensagem de erro
+        });
+    });
+</script>
+
 <body>
     <div class="login-box">
         <div class="login-header">
@@ -71,3 +111,5 @@
                 // window.location.href = "dashboard.html";
             }
         });-->
+
+ 
