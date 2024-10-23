@@ -8,49 +8,52 @@ dotenv.config();
 
 // Registro
 router.post('/register', (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
 
-  if (!username || !password) {
+  if (!username || !password || !email) {
     return res.status(400).send('Coloque as credenciais');
   }
 
   const hashedPassword = bcrypt.hashSync(password, 8);
 
   db.query(
-    'INSERT INTO users (username, password) VALUES (?, ?)',
-    [username, hashedPassword],
+    'INSERT INTO users (username, password, email) VALUES (?, ?, ?)',
+    [username, hashedPassword, email],
     (err, results) => {
       if (err) {
         return res.status(500).send('Erro registando usuario');
       }
-      res.status(201).send('Usuario registrado');
+      res.status(201).send('Usuario registrado com sucesso');
     }
   );
 });
 
 // Login
 router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { username, password } = req.body; // Aqui, username é o email
 
   db.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
-    if (err || results.length === 0) {
-      return res.status(400).send('User not found');
-    }
+      if (err || results.length === 0) {
+          return res.status(400).send('Usuário não encontrado');
+      }
 
-    const user = results[0];
+      const user = results[0];
 
-    const passwordIsValid = bcrypt.compareSync(password, user.password);
+      const passwordIsValid = bcrypt.compareSync(password, user.password);
 
-    if (!passwordIsValid) {
-      return res.status(401).send('Invalid password');
-    }
+      if (!passwordIsValid) {
+          return res.status(401).send('Senha inválida');
+      }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: 86400
-    });
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+          expiresIn: 86400 // 24 horas
+      });
 
-    res.status(200).send({ auth: true, token });
+      res.status(200).send({ auth: true, token });
   });
+
+  module.exports = router;
+
 });
 
 module.exports = router;
