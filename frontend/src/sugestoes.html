@@ -1,161 +1,105 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="icon" type="image/x-icon" href="twitter-icons/sam-dp.ico">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
+<html lang="en">
 
-        <link href="../styles/sugestos.css" rel="stylesheet">
-        <link href="../styles/barrasugestoes.css" rel="stylesheet">
-        <title> Twitter Clone</title>
-    </head>
-    <body style="margin: 0; background-color:#dfdfdf50; font-family: Roboto;">
-        <div class="grid">
-            <div class="sidebar">
-                <div class="sidebar-container">
-                    <div class="home-container">
-                        <div class="home-container-2">
-                            <div class="home-icon-container">
-                                <img class="home-icon" src="../twitter-icons/home-icon.png">
-                            </div>
-                            <div class="home-icon-container">
-                                <div class="home-text">Home</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="explore-container">
-                        <div class="explore-container-2">
-                            <div class="explore-icon-container">
-                                <img class="explore-icon" src="../twitter-icons/hash-icon.png">
-                            </div>
-                            <div class="explore-icon-container">
-                                <div class="explore-text">Ver outras sugestões</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="notification-container">
-                        <div class="notification-container-2">
-                            <div class="notification-icon-container">
-                                <img class="notification-icon" src="../twitter-icons/notification-icon.png">
-                            </div>
-                            <div class="notification-icon-container">
-                                <div class="notification-text">Minhas sugestões</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="message-container">
-                        <div class="message-container-2">
-                            <div class="message-icon-container">
-                                <img class="message-icon" src="../twitter-icons/message-icon.png">
-                            </div>
-                            <div class="message-icon-container">
-                                <div class="message-text">Mensagens</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="profile-container">
-                        <div class="profile-container-2">
-                            <div class="profile-icon-container">
-                                <img class="profile-icon" src="../twitter-icons/profile-icon.png">
-                            </div>
-                            <div class="profile-icon-container">
-                                <div class="profile-text">Meu perfil</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tweet-container">
-                        <button class="tweet">Dar sugestão</button>
-                    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="twitter-icons/sam-dp.ico">
+    <title>Twitter Clone</title>
+</head>
+
+<body class="bg-gray-50 font-roboto min-h-screen">
+    <div class="grid grid-cols-12">
+        <!-- Sidebar -->
+        <div class="col-span-2 bg-white h-screen shadow-md">
+            <div class="space-y-8 mt-8 px-4">
+                <div class="flex items-center space-x-4 cursor-pointer">
+                    <img class="w-8" src="../twitter-icons/home-icon.png" />
+                    <span class="text-lg font-semibold">Home</span>
                 </div>
-            </div>
-    
-            <div class="home">
-                <div class="home-title">
-                    Home
+                <div class="flex items-center space-x-4 cursor-pointer">
+                    <img class="w-8" src="../twitter-icons/hash-icon.png" />
+                    <span class="text-lg font-semibold">Ver outras sugestões</span>
                 </div>
-                <div class="tweet-box">
-                    <div class="text-boxx">
-                        <img src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" class="my-profile">
-                    </div>
-                    <div class="text-boxx">
-                        <input type="text" id="postInput" placeholder="Me dê sua sugestão?" class="text-box">
-                    </div>
+                <div class="flex items-center space-x-4 cursor-pointer">
+                    <img class="w-8" src="../twitter-icons/notification-icon.png" />
+                    <span class="text-lg font-semibold">Minhas sugestões</span>
                 </div>
-                <div class="icons">
-                    <div class="tweet-button-container">
-                        <button class="tweet-button" onclick="addPost()">Tweet</button>
-                    </div>
+                <div class="flex items-center space-x-4 cursor-pointer">
+                    <img class="w-8" src="../twitter-icons/message-icon.png" />
+                    <span class="text-lg font-semibold">Mensagens</span>
                 </div>
-    
-                <!-- Container para os posts -->
-                <div id="postsContainer" class="posts-container">
-                    <!-- Os posts serão adicionados aqui -->
+                <div class="flex items-center space-x-4 cursor-pointer">
+                    <img class="w-8" src="../twitter-icons/profile-icon.png" />
+                    <span class="text-lg font-semibold">Meu perfil</span>
                 </div>
+                <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                    Dar sugestão
+                </button>
             </div>
         </div>
-    
-        <script>
-            // Função para adicionar um novo post
-            function addPost() {
-                const postText = document.getElementById('postInput').value;
-                if (postText === '') return;
-    
-                // Cria o elemento de post
-                const post = document.createElement('div');
-                post.classList.add('flexbox');
-                post.innerHTML = `
-                    <div class="content">
-                        <div class="content-title-profile">
-                            <img src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" class="post-profile">
-                        </div>
-                        <div class="content-title">
-                            <div class="title-container">
-                                <span class="post-title">Usuário</span>
-                            </div>
-                            <div class="content--title">
-                                ${postText}
-                            </div>
-                            <div class="line-icon-container">
-                                <div class="line-icon-1">
-                                    <div class="line-icon1">
-                                        <div class="reply-icon"><img src="../twitter-icons/reply-icon.png" class="line-icons-icon"></div>
-                                        <div class="count1">882</div>
-                                    </div>
-                                    
-                                </div>
 
-                                <div class="line-icon-1">
-                                    <div class="line-icon1">
-                                        <div class="reply-icon"><img src="../twitter-icons/reply-icon.png" class="line-icons-icon"></div>
-                                        <div class="count1">882</div>
-                                    </div>
-                                    
-                                </div>
+        <!-- Home Section -->
+        <div class="col-span-10 p-8">
+            <h1 class="text-3xl font-bold mb-6">Home</h1>
 
-                                <div class="line-icon-1">
-                                    <div class="line-icon1">
-                                        <div class="reply-icon"><img src="../twitter-icons/reply-icon.png" class="line-icons-icon"></div>
-                                        <div class="count1">882</div>
-                                    </div>
-                                    
-                                </div>
-                                
-                            </div>
-                        </div>
+            <!-- Tweet Box -->
+            <div class="flex items-start space-x-4 mb-6">
+                <img class="w-12 h-12 rounded-full" src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" />
+                <input id="postInput" type="text" placeholder="Me dê sua sugestão?" 
+                    class="flex-1 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                <button onclick="addPost()" 
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                    Tweet
+                </button>
+            </div>
+
+            <!-- Posts Container -->
+            <div id="postsContainer" class="space-y-4">
+                <!-- Posts serão adicionados aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addPost() {
+            const postText = document.getElementById('postInput').value;
+            if (postText === '') return;
+
+            const post = document.createElement('div');
+            post.classList.add('flex', 'space-x-4', 'p-4', 'border', 'rounded-lg', 'bg-white');
+
+            post.innerHTML = `
+                <img class="w-12 h-12 rounded-full" src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" />
+                <div class="flex-1">
+                    <h2 class="font-semibold text-lg">Usuário</h2>
+                    <p class="text-gray-600">${postText}</p>
+                    <div class="flex space-x-4 mt-2">
+                        <button class="flex items-center space-x-2">
+                            <img src="../twitter-icons/reply-icon.png" class="w-5" />
+                            <span>882</span>
+                        </button>
+                        <button class="flex items-center space-x-2">
+                            <img src="../twitter-icons/reply-icon.png" class="w-5" />
+                            <span>882</span>
+                        </button>
+                        <button class="flex items-center space-x-2">
+                            <img src="../twitter-icons/reply-icon.png" class="w-5" />
+                            <span>882</span>
+                        </button>
                     </div>
-                `;
-    
-                // Adiciona o post no container
-                const postsContainer = document.getElementById('postsContainer');
-                postsContainer.prepend(post); // Adiciona o post no início
-    
-                // Limpa o campo de texto
-                document.getElementById('postInput').value = '';
-            }
-        </script>
-    </body>
-    </html>
+                </div>
+            `;
+
+            document.getElementById('postsContainer').prepend(post);
+            document.getElementById('postInput').value = '';
+        }
+    </script>
+</body>
+
+</html>

@@ -6,6 +6,19 @@ const db = require('../configDB/db.js');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const cors = require('cors');
+const app = express();
+
+app.use(cors());
+app.use(express.json());  // Permite interpretar JSON no body das requisições
+
+const loginRouter = require('./routes/auth/routes');  // Ajuste o caminho conforme seu projeto
+app.use('/', loginRouter);
+
+app.listen(3000, () => {
+    console.log('Servidor rodando na porta 3000');
+});
+
 // Registro
 router.post('/register', (req, res) => {
   const { username, password, email } = req.body;

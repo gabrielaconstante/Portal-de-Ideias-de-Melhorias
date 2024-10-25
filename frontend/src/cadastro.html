@@ -1,115 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <!-- Adicionando Material Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Registre-se | Portal de Melhorias</title>
 </head>
 
-<script>
-    document.getElementById("submit-txt").addEventListener("click", function(event) {
-        event.preventDefault(); // Evita o envio padrão do formulário
-
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        const email = document.getElementById("email").value;
-
-        // Validação simples
-        if (!username || !password || !email) {
-            alert("Por favor, preencha todos os campos.");
-            return;
-        }
-
-        // Enviando os dados para a rota de cadastro
-        fetch('/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password, email })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao registrar usuário');
-            }
-            return response.text();
-        })
-        .then(data => {
-            alert(data); // Mensagem de sucesso
-            // Você pode redirecionar para outra página aqui, se necessário
-            // window.location.href = "login.html";
-        })
-        .catch(error => {
-            alert(error.message); // Mensagem de erro
-        });
-    });
-</script>
-
-<body>
-    <div class="login-box">
-        <div class="login-header">
-            <header>Registre-se</header>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md space-y-6">
+        <div class="text-center">
+            <h1 class="text-2xl font-semibold text-gray-800">Registre-se</h1>
         </div>
-        <div class="input-box">
-            <div class="input-container">
-                <span class="material-icons" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 25px; color: #888;">person_outline</span>
-                <input type="text" class="input-field" id="nome" placeholder="Digite seu Nome" autocomplete="off" required>
+
+        <div class="space-y-4">
+            <div class="relative">
+                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">person_outline</span>
+                <input type="text" id="nome" placeholder="Digite seu Nome" 
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                    autocomplete="off" required>
             </div>
-            <div class="input-container">
-                <span class="material-icons" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 25px; color: #888;">alternate_email</span>
-                <input type="text" class="input-field" id="username" placeholder="Digite seu Username" autocomplete="off" required>
+
+            <div class="relative">
+                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">alternate_email</span>
+                <input type="text" id="username" placeholder="Digite seu Username" 
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                    autocomplete="off" required>
             </div>
-            <div class="input-container">
-                <span class="material-icons" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 25px; color: #888;">mail_outline</span>
-                <input type="text" class="input-field" id="email" placeholder="Digite seu email" autocomplete="off" required>
+
+            <div class="relative">
+                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">mail_outline</span>
+                <input type="email" id="email" placeholder="Digite seu Email" 
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                    autocomplete="off" required>
             </div>
-            <div class="input-container">
-                <span class="material-icons" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 25px; color: #888;">lock_outline</span>
-                <input type="password" class="input-field" id="password" placeholder="Digite sua senha" autocomplete="off" required>
+
+            <div class="relative">
+                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">lock_outline</span>
+                <input type="password" id="password" placeholder="Digite sua Senha" 
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                    autocomplete="off" required>
             </div>
-            <div class="input-container">
-                <span class="material-icons" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 25px; color: #888;">lock_outline</span>
-                <input type="password" class="input-field" id="repeat-password" placeholder="Repita sua senha" autocomplete="off" required>
+
+            <div class="relative">
+                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">lock_outline</span>
+                <input type="password" id="repeat-password" placeholder="Repita sua Senha" 
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                    autocomplete="off" required>
             </div>
         </div>
-        <div class="input-submit">
-            <button class="submit-btn" id="submit-txt">Registrar</button>
+
+        <div>
+            <button id="submit-txt" 
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md transition">
+                Registrar
+            </button>
         </div>
-        <div class="sign-up-link">
-            <p>Já tem conta? <a href="#">Faça Login aqui</a></p>
+
+        <div class="text-center">
+            <p class="text-gray-600">Já tem conta? <a href="login.html" class="text-blue-500 hover:underline">Faça Login aqui</a></p>
         </div>
     </div>
-</body>
-</html>
 
-
-
-
-    <!-- JavaScript 
     <script>
-        document.getElementById("submit").addEventListener("click", function(event) {
-            event.preventDefault();  // Evita o submit da página
-            const emailField = document.getElementById("email");
-            const passwordField = document.getElementById("password");
+        document.getElementById("submit-txt").addEventListener("click", function(event) {
+            event.preventDefault();
 
-            // Remove as classes de erro
-            emailField.classList.remove("error");
-            passwordField.classList.remove("error");
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const email = document.getElementById("email").value;
 
-            // Validação simples
-            if (!emailField.value || !passwordField.value) {
-                // Verifica se os campos estão vazios e adiciona classe 'error' para feedback visual
-                if (!emailField.value) emailField.classList.add("error");
-                if (!passwordField.value) passwordField.classList.add("error");
-                alert("Please fill out all fields.");
-            } else {
-                alert("Login successful!");
-                // Aqui você pode redirecionar para outra página após o login, por exemplo:
-                // window.location.href = "dashboard.html";
+            if (!username || !password || !email) {
+                alert("Por favor, preencha todos os campos.");
+                return;
             }
-        });-->
 
- 
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password, email })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao registrar usuário');
+                }
+                return response.text();
+            })
+            .then(data => {
+                alert(data);
+                // Redireciona para login, se necessário
+                // window.location.href = "login.html";
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+        });
+    </script>
+</body>
+
+</html>
