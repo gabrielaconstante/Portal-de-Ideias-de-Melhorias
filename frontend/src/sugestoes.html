@@ -11,50 +11,106 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="twitter-icons/sam-dp.ico">
     <title>Twitter Clone</title>
+
+    <style>
+        .tag-news { background-color: #FFE5E5; color: #D9534F; } /* Cor da tag Notícias */
+        .tag-suggestion { background-color: #D9EDF7; color: #31708F; } /* Cor da tag Sugestão */
+        .tag-question { background-color: #FCF8E3; color: #8A6D3B; } /* Cor da tag Dúvida */
+        .tag-feedback { background-color: #DFF0D8; color: #3C763D; } /* Cor da tag Feedback */
+    </style>
 </head>
 
 <body class="bg-gray-50 font-roboto min-h-screen">
     <div class="grid grid-cols-12">
         <!-- Sidebar -->
-        <div class="col-span-2 bg-white h-screen shadow-md">
-            <div class="space-y-8 mt-8 px-4">
-                <div class="flex items-center space-x-4 cursor-pointer">
-                    <img class="w-8" src="../twitter-icons/home-icon.png" />
-                    <span class="text-lg font-semibold">Home</span>
+        <div class="grid grid-cols-12">
+            <!-- Sidebar -->
+            <div class="col-span-2 bg-white h-screen shadow-md fixed">
+                <!-- Empresa e logotipo -->
+                 <!-- Empresa e logotipo -->
+                 <div class="flex items-center px-4 py-6 bg-gray-100 space-x-3">
+                    <img class="w-14 h-14" src="https://icons.iconarchive.com/icons/microsoft/fluentui-emoji-3d/512/Blue-Heart-3d-icon.png" alt="TechCorp Logo" /> <!-- Substitua pelo link do logo da empresa -->
+                    <div class="flex flex-col">
+                        <span class="text-sm text-gray-500">Gestão de melhorias</span>
+                        <span class="text-2xl font-bold text-gray-800">Sistema TechDio</span>
+                    </div>
                 </div>
-                <div class="flex items-center space-x-4 cursor-pointer">
-                    <img class="w-8" src="../twitter-icons/hash-icon.png" />
-                    <span class="text-lg font-semibold">Ver outras sugestões</span>
+        
+                <div class="space-y-8 mt-8 px-4">
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/home-icon.png" />
+                        <span class="text-lg font-semibold">Home</span>
+                    </div>
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/hash-icon.png" />
+                        <span class="text-lg font-semibold">Ver outras sugestões</span>
+                    </div>
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/notification-icon.png" />
+                        <span class="text-lg font-semibold">Minhas sugestões</span>
+                    </div>
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/message-icon.png" />
+                        <span class="text-lg font-semibold">Meus Votos e Comentários</span>
+                    </div>
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/profile-icon.png" />
+                        <span class="text-lg font-semibold">Meu perfil</span>
+                    </div>
+                    <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                        Dar sugestão
+                    </button>
                 </div>
-                <div class="flex items-center space-x-4 cursor-pointer">
-                    <img class="w-8" src="../twitter-icons/notification-icon.png" />
-                    <span class="text-lg font-semibold">Minhas sugestões</span>
-                </div>
-                <div class="flex items-center space-x-4 cursor-pointer">
-                    <img class="w-8" src="../twitter-icons/message-icon.png" />
-                    <span class="text-lg font-semibold">Mensagens</span>
-                </div>
-                <div class="flex items-center space-x-4 cursor-pointer">
-                    <img class="w-8" src="../twitter-icons/profile-icon.png" />
-                    <span class="text-lg font-semibold">Meu perfil</span>
-                </div>
-                <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
-                    Dar sugestão
-                </button>
             </div>
         </div>
+        
+    </div>
+    
 
         <!-- Home Section -->
-        <div class="col-span-10 p-8">
-            <h1 class="text-3xl font-bold mb-6">Home</h1>
+        <div class="col-span-10 p-8 ml-[22%] ">
+            <h1 class="text-3xl font-bold mb-6 text-black-700">Home</h1>
 
             <!-- Tweet Box -->
             <div class="flex items-start space-x-4 mb-6">
-                <img class="w-12 h-12 rounded-full" src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" />
-                <input id="postInput" type="text" placeholder="Me dê sua sugestão?" 
-                    class="flex-1 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                <img class="w-12 h-12 rounded-full border-2 " src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" />
+
+                <!-- Caixa de Texto com Seleção de Tag -->
+                <div class="relative flex-1">
+                    <input id="postInput" type="text" placeholder="Me dê sua sugestão?"
+                        class="w-full p-4 border rounded-lg pr-24 focus:outline-none focus:ring-2 " />
+
+                    <!-- Select Tag dentro do campo de texto -->
+                    <select id="tagSelect" onchange="updateTagColor()" class="absolute top-2 right-2 border p-2 rounded ">
+                        <option value="tag-news">Erro</option>
+                        <option value="tag-suggestion">Layout</option>
+                        <option value="tag-question">Usabilidade</option>
+                        <option value="tag-feedback">Desempenho</option>
+                        <!-- Usabilidade
+                        Desempenho
+                        Acessibilidade
+                        Funcionalidade
+                        Segurança
+                        Design
+                        Eficiência
+                        Integração
+                        Automação
+                        Escalabilidade
+                        Suporte
+                        Feedback do Usuário
+                        Treinamento
+                        Processos
+                        Customização
+                        Manutenção
+                        Inovação
+                        Comunicação
+                        Satisfação do Cliente
+                        Atualização -->
+                    </select>
+                </div>
+
                 <button onclick="addPost()" 
-                    class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
                     Tweet
                 </button>
             </div>
@@ -67,38 +123,57 @@
     </div>
 
     <script>
+        function updateTagColor() {
+            const tagSelect = document.getElementById('tagSelect');
+            const selectedTagClass = tagSelect.value;
+
+            // Remover classes de tag existentes e adicionar a classe selecionada
+            tagSelect.classList.remove('tag-news', 'tag-suggestion', 'tag-question', 'tag-feedback');
+            tagSelect.classList.add(selectedTagClass);
+        }
+
         function addPost() {
             const postText = document.getElementById('postInput').value;
+            const selectedTagClass = document.getElementById('tagSelect').value;
+            const tagText = document.getElementById('tagSelect').options[document.getElementById('tagSelect').selectedIndex].text;
             if (postText === '') return;
 
             const post = document.createElement('div');
             post.classList.add('flex', 'space-x-4', 'p-4', 'border', 'rounded-lg', 'bg-white');
 
             post.innerHTML = `
-                <img class="w-12 h-12 rounded-full" src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" />
-                <div class="flex-1">
-                    <h2 class="font-semibold text-lg">Usuário</h2>
-                    <p class="text-gray-600">${postText}</p>
-                    <div class="flex space-x-4 mt-2">
-                        <button class="flex items-center space-x-2">
-                            <img src="../twitter-icons/reply-icon.png" class="w-5" />
-                            <span>882</span>
-                        </button>
-                        <button class="flex items-center space-x-2">
-                            <img src="../twitter-icons/reply-icon.png" class="w-5" />
-                            <span>882</span>
-                        </button>
-                        <button class="flex items-center space-x-2">
-                            <img src="../twitter-icons/reply-icon.png" class="w-5" />
-                            <span>882</span>
-                        </button>
-                    </div>
+                <!-- Exibição da tag selecionada, agora imutável e com cor específica -->
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="text-sm font-semibold ${selectedTagClass} p-1 rounded">${tagText}</span>
                 </div>
+
+                <img class="w-12 h-12 rounded-full" src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" />
+            <div class="flex-1">
+                <h2 class="font-semibold text-lg">Usuário</h2>
+                <p class="text-gray-600">${postText}</p>
+                <div class="flex space-x-4 mt-2">
+                    <button class="flex items-center space-x-2">
+                        <img src="../twitter-icons/reply-icon.png" class="w-5" />
+                        <span>882</span>
+                    </button>
+                    <button class="flex items-center space-x-2">
+                        <img src="../twitter-icons/reply-icon.png" class="w-5" />
+                        <span>882</span>
+                    </button>
+                    <button class="flex items-center space-x-2">
+                        <img src="../twitter-icons/reply-icon.png" class="w-5" />
+                        <span>882</span>
+                    </button>
+                </div>
+            </div>
             `;
 
             document.getElementById('postsContainer').prepend(post);
             document.getElementById('postInput').value = '';
         }
+
+        // Inicializar a cor da tag selecionada na caixa de seleção
+        updateTagColor();
     </script>
 </body>
 
