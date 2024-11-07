@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="twitter-icons/sam-dp.ico">
+    <title>Configurações de Perfil - Twitter Clone</title>
+</head>
+
+<body class="bg-gray-50 font-roboto min-h-screen">
+    <div class="grid grid-cols-12">
+        <!-- Sidebar -->
+        <div class="grid grid-cols-12">
+            <!-- Sidebar -->
+            <div class="col-span-2 bg-white h-screen shadow-md fixed">
+                <!-- Empresa e logotipo -->
+                 <!-- Empresa e logotipo -->
+                 <div class="flex items-center px-4 py-6 bg-gray-100 space-x-3">
+                    <img class="w-14 h-14" src="https://icons.iconarchive.com/icons/microsoft/fluentui-emoji-3d/512/Blue-Heart-3d-icon.png" alt="TechCorp Logo" /> <!-- Substitua pelo link do logo da empresa -->
+                    <div class="flex flex-col">
+                        <span class="text-sm text-gray-500">Gestão de melhorias</span>
+                        <span class="text-2xl font-bold text-gray-800">Sistema TechDio</span>
+                    </div>
+                </div>
+        
+                <div class="space-y-8 mt-8 px-4">
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/home-icon.png" />
+                        <span class="text-lg font-semibold">Home</span>
+                    </div>
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/hash-icon.png" />
+                        <span class="text-lg font-semibold">Ver outras sugestões</span>
+                    </div>
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/notification-icon.png" />
+                        <span class="text-lg font-semibold">Minhas sugestões</span>
+                    </div>
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/message-icon.png" />
+                        <span class="text-lg font-semibold">Meus Votos e Comentários</span>
+                    </div>
+                    <div class="flex items-center space-x-4 cursor-pointer">
+                        <img class="w-8" src="../twitter-icons/profile-icon.png" />
+                        <span class="text-lg font-semibold">Meu perfil</span>
+                    </div>
+                    <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                        Dar sugestão
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configurações de Perfil -->
+        <div class="col-span-10 p-8 ml-[22%]">
+            <h1 class="text-3xl font-bold mb-6 text-gray-800">Configurações de Perfil</h1>
+
+            <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+                <!-- Foto de perfil -->
+                <div class="flex items-center space-x-4">
+                    <img class="w-16 h-16 rounded-full border" src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" alt="Profile Picture">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Alterar foto de perfil</button>
+                </div>
+
+                <!-- Nome -->
+                <div>
+                    <label class="block text-gray-600 font-semibold mb-1">Nome</label>
+                    <input type="text" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2" placeholder="Seu nome">
+                </div>
+
+                <!-- Bio -->
+                <div>
+                    <label class="block text-gray-600 font-semibold mb-1">Email</label>
+                    <textarea class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2" placeholder="Conte-nos um pouco sobre você"></textarea>
+                    <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 w-full">Salvar alterações</button>
+                </div>
+
+                <!-- Localização -->
+                <div>
+                    <label class="block text-gray-600 font-semibold mb-1">Senha</label>
+                    <input type="text" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2" placeholder="Sua cidade">
+                    <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 w-full">Salvar alterações</button>
+                </div>
+                <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 w-full">Salvar alterações</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
