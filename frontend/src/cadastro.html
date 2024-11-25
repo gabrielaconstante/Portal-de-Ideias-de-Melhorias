@@ -18,87 +18,90 @@
 
         <div class="space-y-4">
             <div class="relative">
-                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">person_outline</span>
-                <input type="text" id="nome" placeholder="Digite seu Nome" 
-                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                <span
+                    class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">person_outline</span>
+                <input type="text" id="username" placeholder="Digite seu Nome"
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                     autocomplete="off" required>
             </div>
 
             <div class="relative">
-                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">alternate_email</span>
-                <input type="text" id="username" placeholder="Digite seu Username" 
-                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                <span
+                    class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">mail_outline</span>
+                <input type="email" id="email" placeholder="Digite seu Email"
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                     autocomplete="off" required>
             </div>
 
             <div class="relative">
-                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">mail_outline</span>
-                <input type="email" id="email" placeholder="Digite seu Email" 
-                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                <span
+                    class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">lock_outline</span>
+                <input type="password" id="password" placeholder="Digite sua Senha"
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                     autocomplete="off" required>
             </div>
 
             <div class="relative">
-                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">lock_outline</span>
-                <input type="password" id="password" placeholder="Digite sua Senha" 
-                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
-                    autocomplete="off" required>
-            </div>
-
-            <div class="relative">
-                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">lock_outline</span>
-                <input type="password" id="repeat-password" placeholder="Repita sua Senha" 
-                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                <span
+                    class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">lock_outline</span>
+                <input type="password" id="repeat-password" placeholder="Repita sua Senha"
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                     autocomplete="off" required>
             </div>
         </div>
 
         <div>
-            <button id="submit-txt" 
+            <button id="submit-txt"
                 class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md transition">
                 Registrar
             </button>
         </div>
 
         <div class="text-center">
-            <p class="text-gray-600">Já tem conta? <a href="login.html" class="text-blue-500 hover:underline">Faça Login aqui</a></p>
+            <p class="text-gray-600">Já tem conta? <a href="login.html" class="text-blue-500 hover:underline">Faça Login
+                    aqui</a></p>
         </div>
     </div>
 
     <script>
-        document.getElementById("submit-txt").addEventListener("click", function(event) {
+        document.getElementById("submit-txt").addEventListener("click", function (event) {
             event.preventDefault();
 
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
             const email = document.getElementById("email").value;
+            const repeatPassword = document.getElementById("repeat-password").value;
 
             if (!username || !password || !email) {
                 alert("Por favor, preencha todos os campos.");
                 return;
             }
 
-            fetch('/register', {
+            if (password !== repeatPassword) {
+                alert("As senhas não coincidem.");
+                return;
+            }
+
+            fetch('http://localhost:3000/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ username, password, email })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao registrar usuário');
-                }
-                return response.text();
-            })
-            .then(data => {
-                alert(data);
-                // Redireciona para login, se necessário
-                // window.location.href = "login.html";
-            })
-            .catch(error => {
-                alert(error.message);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao registrar usuário');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    alert("Registro concluído com sucesso!");
+                    window.location.href = "login.html";
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
         });
     </script>
 </body>

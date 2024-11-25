@@ -52,16 +52,21 @@ exports.login = (req, res) => {
 
 // Função para criar uma publicação
 exports.createPost = (req, res) => {
-    const { conteudo } = req.body;
+    const { conteudo, tag } = req.body;
     const userId = req.userId;
 
     if (!conteudo) {
         return res.status(400).send('Conteúdo não pode estar vazio');
     }
 
+    if (!tag) {  // Verificando se a tag foi fornecida
+        return res.status(400).send('Tag não pode estar vazia');
+    }
+
+    // Inserindo conteúdo e tag no banco de dados
     db.query(
-        'INSERT INTO Publicacao (usuario_id, conteudo) VALUES (?, ?)',
-        [userId, conteudo],
+        'INSERT INTO Publicacao (usuario_id, conteudo, tag) VALUES (?, ?, ?)',
+        [userId, conteudo, tag],
         (err, results) => {
             if (err) {
                 return res.status(500).send('Erro ao criar publicação');
@@ -126,3 +131,82 @@ exports.votePost = (req, res) => {
         }
     );
 };
+exports.showPost = (req, res) => {
+    db.query(
+        'SELECT p.conteudo, p.tag, u.nome FROM publicacao p JOIN usuario u ON p.usuario_id = u.id ORDER BY p.data_criacao DESC;',
+        (err, results) => {
+            if (err) {
+                return res.status(500).send('Erro ao recuperar conteúdo');
+            }
+
+            if (results.length === 0) {
+                return res.status(404).send('Nenhuma publicação encontrada');
+            }
+
+            // Enviar os conteúdos, tags e os nomes dos usuários encontrados
+            res.status(200).json({
+                message: 'Conteúdos recuperados com sucesso',
+                conteudos: results.map(row => ({
+                    conteudo: row.conteudo,
+                    tag: row.tag,
+                    nome: row.nome
+                }))
+            });
+        }
+    );
+};
+exports.getCommentsByPostId = (req, res) => {
+    const { postId } = req.body;
+
+    // Validação do ID do post
+    if (!postId) {
+        return res.status(400).json({ error: 'O ID do post (postId) é obrigatório' });
+    }
+
+    // Consulta ao banco de dados
+    db.query(
+        'SELECT id, conteudo, data_criacao FROM comentarios WHERE post_id = ? ORDER BY data_criacao DESC;',
+        [postId],
+        (err, results) => {
+            if (err) {
+                console.error('Erro ao recuperar comentários:', err);
+                return res.status(500).json({ error: 'Erro ao recuperar comentários. Tente novamente mais tarde.' });
+            }
+
+            // Verificar se há resultados
+            if (results.length === 0) {
+                return res.status(404).json({ message: 'Nenhum comentário encontrado para este post.' });
+            }
+
+            // Enviar os comentários encontrados
+            res.status(200).json({
+                message: 'Comentários recuperados com sucesso.',
+                comentarios: results.map(row => ({
+                    id: row.id,
+                    conteudo: row.conteudo,
+                    dataCriacao: row.data_criacao,
+                })),
+            });
+        }
+    );
+};
+exports.getPublicacoesByUser = (req, res) => {
+    const userId = req.userId;
+
+    // Query para pegar as publicações do usuário
+    db.query('SELECT * FROM publicacao WHERE usuario_id = ? ORDER BY data_criacao DESC', [userId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Erro ao buscar publicações' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Nenhuma publicação encontrada' });
+        }
+
+        // Retorna as publicações encontradas
+        res.status(200).json({ publicacoes: results });
+    });
+};
+
+
+
+

@@ -16,81 +16,109 @@
 <body class="bg-gray-50 font-roboto min-h-screen">
     <div class="grid grid-cols-12">
         <!-- Sidebar -->
-        <div class="grid grid-cols-12">
-            <!-- Sidebar -->
-            <div class="col-span-2 bg-white h-screen shadow-md fixed">
-                <!-- Empresa e logotipo -->
-                 <!-- Empresa e logotipo -->
-                 <div class="flex items-center px-4 py-6 bg-gray-100 space-x-3">
-                    <img class="w-14 h-14" src="https://icons.iconarchive.com/icons/microsoft/fluentui-emoji-3d/512/Blue-Heart-3d-icon.png" alt="TechCorp Logo" /> <!-- Substitua pelo link do logo da empresa -->
-                    <div class="flex flex-col">
-                        <span class="text-sm text-gray-500">Gestão de melhorias</span>
-                        <span class="text-2xl font-bold text-gray-800">Sistema TechDio</span>
-                    </div>
+        <div class="col-span-2 bg-white h-screen shadow-md fixed">
+            <div class="flex items-center px-4 py-6 bg-gray-100 space-x-3">
+                <img class="w-14 h-14"
+                    src="https://icons.iconarchive.com/icons/microsoft/fluentui-emoji-3d/512/Blue-Heart-3d-icon.png"
+                    alt="TechCorp Logo" />
+                <div class="flex flex-col">
+                    <span class="text-sm text-gray-500">Gestão de melhorias</span>
+                    <span class="text-2xl font-bold text-gray-800">Sistema TechDio</span>
                 </div>
-        
-                <div class="space-y-8 mt-8 px-4">
-                    <div class="flex items-center space-x-4 cursor-pointer">
-                        <img class="w-8" src="../twitter-icons/home-icon.png" />
-                        <span class="text-lg font-semibold">Home</span>
-                    </div>
-                    <div class="flex items-center space-x-4 cursor-pointer">
-                        <img class="w-8" src="../twitter-icons/hash-icon.png" />
-                        <span class="text-lg font-semibold">Ver outras sugestões</span>
-                    </div>
-                    <div class="flex items-center space-x-4 cursor-pointer">
-                        <img class="w-8" src="../twitter-icons/notification-icon.png" />
-                        <span class="text-lg font-semibold">Minhas sugestões</span>
-                    </div>
-                    <div class="flex items-center space-x-4 cursor-pointer">
-                        <img class="w-8" src="../twitter-icons/message-icon.png" />
-                        <span class="text-lg font-semibold">Meus Votos e Comentários</span>
-                    </div>
-                    <div class="flex items-center space-x-4 cursor-pointer">
-                        <img class="w-8" src="../twitter-icons/profile-icon.png" />
-                        <span class="text-lg font-semibold">Meu perfil</span>
-                    </div>
-                    <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
-                        Dar sugestão
-                    </button>
+            </div>
+            <div class="space-y-8 mt-8 px-4">
+                <a href="sugestoes.html" class="flex items-center space-x-4 cursor-pointer">
+                    <img class="w-8" src="../twitter-icons/home-icon.png" />
+                    <span class="text-lg font-semibold">Home</span>
+                </a>
+                <div class="flex items-center space-x-4 cursor-pointer">
+                    <img class="w-8" src="../twitter-icons/profile-icon.png" />
+                    <span class="text-lg font-semibold">Meu perfil</span>
                 </div>
             </div>
         </div>
 
-        <!-- Configurações de Perfil -->
-        <div class="col-span-10 p-8 ml-[22%]">
-            <h1 class="text-3xl font-bold mb-6 text-gray-800">Configurações de Perfil</h1>
-
-            <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <!-- Foto de perfil -->
-                <div class="flex items-center space-x-4">
-                    <img class="w-16 h-16 rounded-full border" src="https://i2.pngimg.me/thumb/f/720/c3f2c592f9.jpg" alt="Profile Picture">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Alterar foto de perfil</button>
-                </div>
-
-                <!-- Nome -->
-                <div>
-                    <label class="space-x-4 block text-gray-600 font-semibold mb-1">Nome</label>
-                    <input type="text" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2" placeholder="Seu nome">
-                </div>
-
-                <!-- Bio -->
-                <div>
-                    <label class="space-x-4 block text-gray-600 font-semibold mb-1">Email</label>
-                    <input type="text" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2" placeholder="Digite aqui seu novo email">
-                    <button class="bg-gray-400 text-white py-2 rounded-lg hover:bg-gray-500 w-1/4 mt-4 center">Confirmar alteração de email</button>
-                </div>
-
-                <!-- Localização -->
-                <div>
-                    <label class="block text-gray-600 font-semibold mb-1">Senha</label>
-                    <input type="password" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2" placeholder="Digite aqui sua nova senha">
-                    <button class="bg-gray-400 text-white py-2 rounded-lg hover:bg-gray-500 w-1/4 mt-4 center">Confirmar alteração de senha</button>
-                </div>
-                <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 w-full">Salvar alterações</button>
+        <!-- Conteúdo das Publicações -->
+        <div class="col-span-10 ml-2">
+            <div id="postsContainer" class="mt-10 space-y-4">
+                <!-- As publicações vão ser inseridas aqui -->
             </div>
         </div>
     </div>
+
+    <script>
+        async function loadPublicacoes() {
+            try {
+                const token = localStorage.getItem('authToken'); // Obtém o token JWT armazenado no localStorage
+
+                // Verifica se o token está presente
+                if (!token) {
+                    throw new Error('Token não encontrado');
+                }
+
+                const response = await fetch('http://localhost:3000/auth/getPublicacoesByUser', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Envia o token no cabeçalho da requisição
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                // Verifica se a resposta da requisição foi bem-sucedida
+                if (!response.ok) {
+                    throw new Error('Erro ao recuperar publicações');
+                }
+
+                const data = await response.json(); // Converte a resposta em JSON
+                console.log(data);
+
+                // Verifica se existem publicações
+                if (data.publicacoes && data.publicacoes.length > 0) {
+                    const postsContainer = document.getElementById('postsContainer');
+                    postsContainer.innerHTML = ''; // Limpa o container antes de adicionar as novas publicações
+
+                    // Itera sobre as publicações
+                    data.publicacoes.forEach(post => {
+                        // Criar um novo elemento para o post
+                        const postElement = document.createElement('div');
+                        postElement.classList.add('p-4', 'border', 'rounded-lg', 'shadow-md', 'mb-4', 'w-1/3', 'mx-auto');  
+
+                    
+                        const userNameElement = document.createElement('h3');
+                        userNameElement.classList.add('font-semibold', 'text-lg', 'text-gray-800');
+                        userNameElement.textContent = `Usuário ID: ${post.usuario_id}`; // Exibir o ID do usuário
+
+                        const tagElement = document.createElement('span');
+                        tagElement.classList.add('text-sm', 'block', 'mt-1');
+                        tagElement.textContent = post.tag; // Exibir a tag
+
+                        const postContentElement = document.createElement('p');
+                        postContentElement.classList.add('text-gray-600', 'mt-2');
+                        postContentElement.textContent = post.conteudo;
+
+                        // Adicionar os elementos ao post
+                        postElement.appendChild(userNameElement);
+                        postElement.appendChild(tagElement);
+                        postElement.appendChild(postContentElement);
+
+                        // Adicionar o post ao container
+                        postsContainer.appendChild(postElement);
+                    });
+                } else {
+                    // Caso não haja publicações
+                    const postsContainer = document.getElementById('postsContainer');
+                    postsContainer.innerHTML = '<p>Nenhuma publicação encontrada.</p>';
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao carregar publicações');
+            }
+        }
+
+
+        // Quando a página carrega, chama a função para carregar as publicações
+        window.onload = loadPublicacoes;
+    </script>
 </body>
 
 </html>

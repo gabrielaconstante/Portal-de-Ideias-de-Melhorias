@@ -9,5 +9,7 @@ router.post('/createPost', authenticate, authController.createPost);
 router.post('/likePost', authenticate, authController.likePost);
 router.post('/commentPost', authenticate, authController.commentPost);
 router.post('/votePost', authenticate, authController.votePost);
-
+router.get('/showPost', authenticate, authController.showPost);
+router.post('/getCommentsByPostId', authenticate, authController.getCommentsByPostId);
+router.get('/getPublicacoesByUser', authenticate, authController.getPublicacoesByUser);
 module.exports = router;

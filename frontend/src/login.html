@@ -71,7 +71,7 @@
             })
             .then(data => {
                 alert("Login bem-sucedido!");
-                localStorage.setItem('token', data.token);
+                localStorage.setItem('authToken', data.token);
                 window.location.href = 'sugestoes.html';
             })
             .catch(error => {
