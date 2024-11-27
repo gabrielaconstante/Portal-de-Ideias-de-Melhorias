@@ -133,7 +133,8 @@ exports.votePost = (req, res) => {
 };
 exports.showPost = (req, res) => {
     db.query(
-        'SELECT p.conteudo, p.tag, u.nome FROM publicacao p JOIN usuario u ON p.usuario_id = u.id ORDER BY p.data_criacao DESC;',
+        // 'SELECT p.conteudo, p.tag, u.nome FROM publicacao p JOIN usuario u ON p.usuario_id = u.id ORDER BY p.data_criacao DESC;',
+        'SELECT p.conteudo, p.tag, u.nome, c.conteudo AS CCONTEUDO FROM publicacao p JOIN usuario u ON p.usuario_id = u.id LEFT JOIN comentarios c on c.post_id = p.usuario_id ORDER BY p.data_criacao DESC;',
         (err, results) => {
             if (err) {
                 return res.status(500).send('Erro ao recuperar conteúdo');
@@ -149,12 +150,16 @@ exports.showPost = (req, res) => {
                 conteudos: results.map(row => ({
                     conteudo: row.conteudo,
                     tag: row.tag,
-                    nome: row.nome
+                    nome: row.nome,
+                    coment: row.CCONTEUDO
                 }))
             });
         }
     );
 };
+
+
+
 exports.getCommentsByPostId = (req, res) => {
     const { postId } = req.body;
 
@@ -165,7 +170,7 @@ exports.getCommentsByPostId = (req, res) => {
 
     // Consulta ao banco de dados
     db.query(
-        'SELECT id, conteudo, data_criacao FROM comentarios WHERE post_id = ? ORDER BY data_criacao DESC;',
+        'SELECT * FROM comentarios WHERE post_id = ? ORDER BY data_criacao DESC;',
         [postId],
         (err, results) => {
             if (err) {
@@ -190,11 +195,46 @@ exports.getCommentsByPostId = (req, res) => {
         }
     );
 };
+// exports.getCommentsByPostId = (req, res) => {
+//     const { postId } = req.params; // Usar req.params para pegar o parâmetro da URL
+
+//     // Validação do ID do post
+//     if (!postId) {
+//         return res.status(400).json({ error: 'O ID do post (postId) é obrigatório' });
+//     }
+
+//     // Consulta ao banco de dados
+//     db.query(
+//         'SELECT id, conteudo, data_criacao,post_id FROM comentarios WHERE post_id = ? ORDER BY data_criacao DESC;',
+//         [postId],
+//         (err, results) => {
+//             if (err) {
+//                 console.error('Erro ao recuperar comentários:', err);
+//                 return res.status(500).json({ error: 'Erro ao recuperar comentários. Tente novamente mais tarde.' });
+//             }
+
+//             // Verificar se há resultados
+//             if (results.length === 0) {
+//                 return res.status(404).json({ message: 'Nenhum comentário encontrado para este post.' });
+//             }
+
+//             // Enviar os comentários encontrados
+//             res.status(200).json({
+//                 message: 'Comentários recuperados com sucesso.',
+//                 comentarios: results.map(row => ({
+//                     id: row.id,
+//                     conteudo: row.conteudo,
+//                     dataCriacao: row.data_criacao,
+//                 })),
+//             });
+//         }
+//     );
+// };
 exports.getPublicacoesByUser = (req, res) => {
     const userId = req.userId;
 
     // Query para pegar as publicações do usuário
-    db.query('SELECT * FROM publicacao WHERE usuario_id = ? ORDER BY data_criacao DESC', [userId], (err, results) => {
+    db.query('SELECT p.*, u.nome FROM publicacao p LEFT JOIN usuario u ON p.usuario_id = u.id WHERE p.usuario_id = ?  ORDER BY p.data_criacao DESC', [userId], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erro ao buscar publicações' });
         }

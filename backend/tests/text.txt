@@ -1,0 +1,29 @@
+https://chatgpt.com/c/67178aaa-ad6c-8006-8f14-846ed3552d02
+Passo 1: Instalar o Jest
+npm install jest --save-dev
+
+Passo 2: Configurar o Script de Testes
+json
+Colocar no código
+{
+  "scripts": {
+    "test": "jest"
+  }
+}
+
+Passo 3: Executar os Testes
+npm test
+
+Saída Esperada
+Se os testes passarem, você verá algo parecido com isto:
+
+PASS  __tests__/authService.test.js
+ ✓ Deve permitir o cadastro de um novo usuário (12 ms)
+ ✓ Deve permitir o login com credenciais válidas (3 ms)
+ ✓ Deve retornar erro para login com credenciais inválidas (2 ms)
+ ✓ Deve permitir a recuperação de senha com email válido (1 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        0.967 s

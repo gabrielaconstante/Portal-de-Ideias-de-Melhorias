@@ -135,70 +135,123 @@
                     alert('Erro ao carregar publicações');
                 });
         }
+        function displayPosts(posts) {
+        const postsContainer = document.getElementById('postsContainer');
+        postsContainer.innerHTML = ''; // Limpar posts existentes
 
-function displayPosts(posts) {
-    console.log(posts);  // Verifique os dados de entrada
-    const postsContainer = document.getElementById('postsContainer');
-    postsContainer.innerHTML = ''; // Limpar posts existentes
+        posts.forEach(post => {
+            // Criar um novo elemento para o post
+            const postElement = document.createElement('div');
+            postElement.classList.add('p-4', 'border', 'rounded-lg', 'shadow-md', 'mb-4', 'w-2/3', 'mx-auto', 'relative');
 
-    posts.forEach(post => {
-        // Criar um novo elemento para o post
-        const postElement = document.createElement('div');
-        postElement.classList.add('p-4', 'border', 'rounded-lg', 'shadow-md', 'mb-4', 'w-1/3', 'mx-auto');
+            // Obter a classe da tag e aplicar ao post inteiro
+            const tagClass = getTagClass(post.tag);
+            if (tagClass) {
+                postElement.classList.add(tagClass);
+            }
 
-        // Obter a classe da tag e aplicar ao post inteiro
-        const tagClass = getTagClass(post.tag);
-        if (tagClass) {
-            postElement.classList.add(tagClass); // Aplica a classe de cor ao post inteiro
-        }
+            // Criar a tag do post (posicionada no canto superior direito)
+            const tagElement = document.createElement('span');
+            tagElement.classList.add('absolute', 'top-2', 'right-2', 'text-xs', 'font-semibold', 'py-1', 'px-3', 'rounded', 'bg-opacity-75', 'text-white');
+            tagElement.textContent = post.tag;
 
-        // Criar um título para o nome do usuário
-        const userNameElement = document.createElement('h3');
-        userNameElement.classList.add('font-semibold', 'text-lg', 'text-gray-800');
-        userNameElement.textContent = post.nome; // Exibir o nome do usuário
+            // Estilo dinâmico para cor de fundo da tag
+            switch (post.tag) {
+                case 'Erro':
+                    tagElement.style.backgroundColor = '#D9534F';
+                    break;
+                case 'Layout':
+                    tagElement.style.backgroundColor = '#31708F';
+                    break;
+                case 'Usabilidade':
+                    tagElement.style.backgroundColor = '#8A6D3B';
+                    break;
+                case 'Desempenho':
+                    tagElement.style.backgroundColor = '#3C763D';
+                    break;
+            }
 
-        // Criar a tag do post (Agora, fica logo após o nome do usuário)
-        const tagElement = document.createElement('span');
-        tagElement.classList.add('text-sm', 'block', 'mt-1');
-        tagElement.textContent = post.tag; // Exibir a tag
+            // Criar um título para o nome do usuário
+            const userNameElement = document.createElement('h3');
+            userNameElement.classList.add('font-semibold', 'text-lg', 'text-gray-800');
+            userNameElement.textContent = post.nome;
 
-        // Criar o conteúdo do post
-        const postContentElement = document.createElement('p');
-        postContentElement.classList.add('text-gray-600', 'mt-2');
-        postContentElement.textContent = post.conteudo; // Exibir o conteúdo do post
+            // Criar o conteúdo do post
+            const postContentElement = document.createElement('p');
+            postContentElement.classList.add('text-gray-600', 'mt-2');
+            postContentElement.textContent = post.conteudo;
 
-        // Criar a linha de botões
-        const buttonContainer = document.createElement('div');
-        buttonContainer.classList.add('flex', 'justify-between', 'mt-4');
+            // Criar o conteúdo do post
+            const comentContentElement = document.createElement('p');
+            comentContentElement.classList.add('text-gray-600', 'mt-2');
+            comentContentElement.textContent = post.coment;
 
-        const commentButton = document.createElement('button');
-        commentButton.classList.add('hover:text-blue-700');
-        commentButton.textContent = 'COMENTÁRIOS';
+            // Criar a linha de botões
+            const buttonContainer = document.createElement('div');
+            buttonContainer.classList.add('flex', 'justify-between', 'mt-4');
+            
 
-        const likeButton = document.createElement('button');
-        likeButton.classList.add('hover:text-green-700');
-        likeButton.textContent = 'LIKE';
+            // Criar o botão de comentários
+            const commentButton = document.createElement('button');
+            commentButton.classList.add('hover:text-blue-700');
+            commentButton.textContent = 'COMENTÁRIOS';
 
-        const dislikeButton = document.createElement('button');
-        dislikeButton.classList.add('hover:text-red-700');
-        dislikeButton.textContent = 'DISLIKE';
+            // Ao clicar no botão, buscar os comentários desse post
+            commentButton.addEventListener('click', () => {
+                fetch(`http://localhost:3000/auth/posts/${post.id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.comentarios) {
+                            // Exibir os comentários na interface do usuário
+                            displayComments(data.comentarios);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao recuperar comentários:', error);
+                    });
+            });
+            // const commentButton = document.createElement('button');
+            // commentButton.classList.add('hover:text-blue-700');
+            // commentButton.textContent = 'COMENTÁRIOS';
 
-        // Adicionar os botões ao container
-        buttonContainer.appendChild(commentButton);
-        buttonContainer.appendChild(likeButton);
-        buttonContainer.appendChild(dislikeButton);
+            const likeButton = document.createElement('button');
+            likeButton.classList.add('hover:text-green-700');
+            likeButton.textContent = 'LIKE';
 
-        // Adicionar o nome, tag, conteúdo e botões ao post
-        postElement.appendChild(userNameElement);
-        postElement.appendChild(tagElement); // Adicionar tag após o nome
-        postElement.appendChild(postContentElement);
-        postElement.appendChild(buttonContainer);
+            const dislikeButton = document.createElement('button');
+            dislikeButton.classList.add('hover:text-red-700');
+            dislikeButton.textContent = 'DISLIKE';
 
-        // Adicionar o postElement ao container de posts
-        postsContainer.appendChild(postElement);
+            // Adicionar os botões ao container
+            buttonContainer.appendChild(commentButton);
+            buttonContainer.appendChild(likeButton);
+            buttonContainer.appendChild(dislikeButton);
+
+
+            // Adicionar o nome, conteúdo e botões ao post
+            postElement.appendChild(tagElement); // Adicionar a tag no canto superior direito
+            postElement.appendChild(userNameElement);
+            postElement.appendChild(postContentElement);
+            
+            postElement.appendChild(buttonContainer);
+            postElement.appendChild(comentContentElement);
+            // Adicionar o postElement ao container de posts
+            postsContainer.appendChild(postElement);
+            
+        });
+    }
+// Função para exibir os comentários na interface
+function displayComments(comentarios) {
+    // Exemplo de como você poderia exibir os comentários (essa função precisa ser implementada)
+    const commentsContainer = document.getElementById('commentsContainer');
+    commentsContainer.innerHTML = ''; // Limpar comentários anteriores
+    comentarios.forEach(comment => {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+        commentElement.textContent = comment.conteudo;
+        commentsContainer.appendChild(commentElement);
     });
 }
-
 // Função que retorna a classe de cor baseada na tag
 function getTagClass(tag) {
     switch (tag) {
