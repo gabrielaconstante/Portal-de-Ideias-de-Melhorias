@@ -66,7 +66,7 @@
                     <a href="perfil.html" class="flex items-center space-x-4 cursor-pointer">
                         <img class="w-8" src="../twitter-icons/profile-icon.png" />
                         <span class="text-lg font-semibold">Meu perfil</span>
-                    </a>                    
+                    </a>
                 </div>
             </div>
         </div>
@@ -136,137 +136,168 @@
                 });
         }
         function displayPosts(posts) {
-        const postsContainer = document.getElementById('postsContainer');
-        postsContainer.innerHTML = ''; // Limpar posts existentes
+            const postsContainer = document.getElementById('postsContainer');
+            postsContainer.innerHTML = '';
 
-        posts.forEach(post => {
-            // Criar um novo elemento para o post
-            const postElement = document.createElement('div');
-            postElement.classList.add('p-4', 'border', 'rounded-lg', 'shadow-md', 'mb-4', 'w-2/3', 'mx-auto', 'relative');
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('p-4', 'border', 'rounded-lg', 'shadow-md', 'mb-4', 'w-2/3', 'mx-auto', 'relative');
 
-            // Obter a classe da tag e aplicar ao post inteiro
-            const tagClass = getTagClass(post.tag);
-            if (tagClass) {
-                postElement.classList.add(tagClass);
+                const tagClass = getTagClass(post.tag);
+                if (tagClass) postElement.classList.add(tagClass);
+
+                const tagElement = document.createElement('span');
+                tagElement.classList.add('absolute', 'top-2', 'right-2', 'text-xs', 'font-semibold', 'py-1', 'px-3', 'rounded', 'bg-opacity-75', 'text-white');
+                tagElement.textContent = post.tag;
+
+                switch (post.tag) {
+                    case 'Erro': tagElement.style.backgroundColor = '#D9534F'; break;
+                    case 'Layout': tagElement.style.backgroundColor = '#31708F'; break;
+                    case 'Usabilidade': tagElement.style.backgroundColor = '#8A6D3B'; break;
+                    case 'Desempenho': tagElement.style.backgroundColor = '#3C763D'; break;
+                }
+
+                const userNameElement = document.createElement('h3');
+                userNameElement.classList.add('font-semibold', 'text-lg', 'text-gray-800');
+                userNameElement.textContent = post.nome;
+
+                // Conteúdo do post
+                const postContentElement = document.createElement('p');
+                postContentElement.classList.add('text-gray-600', 'mt-2');
+                postContentElement.textContent = post.conteudo;
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.classList.add('flex', 'justify-between', 'items-center', 'mt-4');
+
+                // Botão de comentários
+                const commentButton = document.createElement('button');
+                commentButton.classList.add('hover:text-blue-700');
+                commentButton.textContent = 'COMENTÁRIOS';
+                commentButton.onclick = () => {
+                    const commentBox = document.createElement('textarea');
+                    commentBox.placeholder = 'Escreva seu comentário aqui...';
+                    commentBox.classList.add('w-full', 'p-2', 'border', 'rounded', 'mt-2');
+
+                    const submitButton = document.createElement('button');
+                    submitButton.textContent = 'Enviar';
+                    submitButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded', 'mt-2', 'hover:bg-blue-600');
+                    submitButton.onclick = () => {
+                        const token = localStorage.getItem('authToken');
+                        fetch('http://localhost:3000/auth/commentPost', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ postId: post.id, conteudo: commentBox.value })
+                        })
+                            .then(response => {
+                                if (!response.ok) throw new Error('Erro ao enviar comentário');
+                                return response.text();
+                            })
+                            .then(() => fetchPosts())
+                            .catch(error => console.error('Erro:', error));
+                    };
+
+                    postElement.appendChild(commentBox);
+                    postElement.appendChild(submitButton);
+                    commentButton.disabled = true;
+                };
+
+// Botão de likes
+const likeButton = document.createElement('button');
+likeButton.classList.add('hover:text-green-700');
+likeButton.textContent = post.userLiked ? 'UNLIKE' : 'LIKE';
+
+// Contador de curtidas
+const likeCount = document.createElement('span');
+likeCount.classList.add('ml-2', 'text-green-700', 'font-semibold');
+likeCount.textContent = `${post.curtidas}`;
+
+likeButton.onclick = () => {
+    const token = localStorage.getItem('authToken');
+    fetch('http://localhost:3000/auth/likePost', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ postId: post.id })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao curtir/publicar');
             }
-
-            // Criar a tag do post (posicionada no canto superior direito)
-            const tagElement = document.createElement('span');
-            tagElement.classList.add('absolute', 'top-2', 'right-2', 'text-xs', 'font-semibold', 'py-1', 'px-3', 'rounded', 'bg-opacity-75', 'text-white');
-            tagElement.textContent = post.tag;
-
-            // Estilo dinâmico para cor de fundo da tag
-            switch (post.tag) {
-                case 'Erro':
-                    tagElement.style.backgroundColor = '#D9534F';
-                    break;
-                case 'Layout':
-                    tagElement.style.backgroundColor = '#31708F';
-                    break;
-                case 'Usabilidade':
-                    tagElement.style.backgroundColor = '#8A6D3B';
-                    break;
-                case 'Desempenho':
-                    tagElement.style.backgroundColor = '#3C763D';
-                    break;
-            }
-
-            // Criar um título para o nome do usuário
-            const userNameElement = document.createElement('h3');
-            userNameElement.classList.add('font-semibold', 'text-lg', 'text-gray-800');
-            userNameElement.textContent = post.nome;
-
-            // Criar o conteúdo do post
-            const postContentElement = document.createElement('p');
-            postContentElement.classList.add('text-gray-600', 'mt-2');
-            postContentElement.textContent = post.conteudo;
-
-            // Criar o conteúdo do post
-            const comentContentElement = document.createElement('p');
-            comentContentElement.classList.add('text-gray-600', 'mt-2');
-            comentContentElement.textContent = post.coment;
-
-            // Criar a linha de botões
-            const buttonContainer = document.createElement('div');
-            buttonContainer.classList.add('flex', 'justify-between', 'mt-4');
-            
-
-            // Criar o botão de comentários
-            const commentButton = document.createElement('button');
-            commentButton.classList.add('hover:text-blue-700');
-            commentButton.textContent = 'COMENTÁRIOS';
-
-            // Ao clicar no botão, buscar os comentários desse post
-            commentButton.addEventListener('click', () => {
-                fetch(`http://localhost:3000/auth/posts/${post.id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.comentarios) {
-                            // Exibir os comentários na interface do usuário
-                            displayComments(data.comentarios);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro ao recuperar comentários:', error);
-                    });
-            });
-            // const commentButton = document.createElement('button');
-            // commentButton.classList.add('hover:text-blue-700');
-            // commentButton.textContent = 'COMENTÁRIOS';
-
-            const likeButton = document.createElement('button');
-            likeButton.classList.add('hover:text-green-700');
-            likeButton.textContent = 'LIKE';
-
-            const dislikeButton = document.createElement('button');
-            dislikeButton.classList.add('hover:text-red-700');
-            dislikeButton.textContent = 'DISLIKE';
-
-            // Adicionar os botões ao container
-            buttonContainer.appendChild(commentButton);
-            buttonContainer.appendChild(likeButton);
-            buttonContainer.appendChild(dislikeButton);
-
-
-            // Adicionar o nome, conteúdo e botões ao post
-            postElement.appendChild(tagElement); // Adicionar a tag no canto superior direito
-            postElement.appendChild(userNameElement);
-            postElement.appendChild(postContentElement);
-            
-            postElement.appendChild(buttonContainer);
-            postElement.appendChild(comentContentElement);
-            // Adicionar o postElement ao container de posts
-            postsContainer.appendChild(postElement);
-            
+            return response.text();
+        })
+        .then(data => {
+            console.log(data);
+            post.userLiked = !post.userLiked;
+            post.curtidas += post.userLiked ? 1 : -1; 
+            likeButton.textContent = post.userLiked ? 'UNLIKE' : 'LIKE'; 
+            likeCount.textContent = `${post.curtidas}`; 
+        })
+        .catch(error => {
+            console.error('Erro:', error);
         });
-    }
-// Função para exibir os comentários na interface
-function displayComments(comentarios) {
-    // Exemplo de como você poderia exibir os comentários (essa função precisa ser implementada)
-    const commentsContainer = document.getElementById('commentsContainer');
-    commentsContainer.innerHTML = ''; // Limpar comentários anteriores
-    comentarios.forEach(comment => {
-        const commentElement = document.createElement('div');
-        commentElement.classList.add('comment');
-        commentElement.textContent = comment.conteudo;
-        commentsContainer.appendChild(commentElement);
-    });
-}
-// Função que retorna a classe de cor baseada na tag
-function getTagClass(tag) {
-    switch (tag) {
-        case 'Erro':
-            return 'Erro'; // cor vermelha para erro
-        case 'Layout':
-            return 'Layout'; // cor azul para layout
-        case 'Usabilidade':
-            return 'Usabilidade'; // cor amarela para usabilidade
-        case 'Desempenho':
-            return 'Desempenho'; // cor verde para desempenho
-        default:
-            return ''; // Se a tag for desconhecida, retorna uma string vazia
-    }
-}
+};
+
+
+                // Adicionar botões ao container
+                buttonContainer.appendChild(commentButton);
+                buttonContainer.appendChild(likeButton);
+                buttonContainer.appendChild(likeCount);
+
+                // Adicionar elementos ao post
+                postElement.appendChild(tagElement);
+                postElement.appendChild(userNameElement);
+                postElement.appendChild(postContentElement);
+                postElement.appendChild(buttonContainer);
+
+                // Adicionar os comentários
+                const commentsContainer = document.createElement('div');
+                commentsContainer.classList.add('mt-4', 'space-y-2');
+                post.comentarios.forEach(comment => {
+                    const commentElement = document.createElement('div');
+                    commentElement.classList.add('bg-gray-100', 'p-2', 'rounded-lg', 'shadow-sm');
+                    commentElement.textContent = comment.conteudo;
+                    commentsContainer.appendChild(commentElement);
+                });
+
+                postElement.appendChild(commentsContainer);
+
+                // Adicionar o post ao container
+                postsContainer.appendChild(postElement);
+            });
+        }
+
+
+        function displayComments(comentarios) {
+            
+            const commentsContainer = document.getElementById('commentsContainer');
+            commentsContainer.innerHTML = ''; 
+            comentarios.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.classList.add('comment');
+                commentElement.textContent = comment.conteudo;
+                commentsContainer.appendChild(commentElement);
+            });
+        }
+        // Função que retorna a classe de cor baseada na tag
+        function getTagClass(tag) {
+            switch (tag) {
+                case 'Erro':
+                    return 'Erro'; 
+                case 'Layout':
+                    return 'Layout'; 
+                case 'Usabilidade':
+                    return 'Usabilidade'; 
+                case 'Desempenho':
+                    return 'Desempenho';
+                default:
+                    return ''; 
+            }
+        }
 
         function updateTagColor() {
             const tagSelect = document.getElementById('tagSelect');
@@ -283,7 +314,7 @@ function getTagClass(tag) {
             const postInput = document.getElementById('postInput');
             const conteudo = postInput.value.trim();
             const tagSelect = document.getElementById('tagSelect');
-            const tag = tagSelect.value;  // Pega o valor selecionado da tag
+            const tag = tagSelect.value; 
             const token = localStorage.getItem('authToken');
 
             if (!conteudo) {
@@ -303,7 +334,7 @@ function getTagClass(tag) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ conteudo, tag })  // Enviando 'tag' junto com 'conteudo'
+                body: JSON.stringify({ conteudo, tag })
             })
                 .then(response => response.text())
                 .then(data => {
